@@ -76,23 +76,37 @@ int main() {
   }
   glDeleteShader(vertex_shader);
   glDeleteShader(fragment_shader);
+  glUseProgram(shader_program);
 
   float vertices[] = {
-    -.5f, -.5f, .0f,
+    .5f, .5f, .0f,
     .5f, -.5f, .0f,
-    .0f, .5f, .0f,
+    -.5f, -.5f, .0f,
+    -.5f, .5f, .0f,
+  };
+  unsigned short indices[] = {
+    0, 1, 3,
+    1, 2, 3,
   };
   unsigned int vertex_buffer_object;
+  unsigned int element_buffer_object;
   unsigned int vertex_array_object;
+
+  glGenVertexArrays(1, &vertex_array_object);
+  glBindVertexArray(vertex_array_object);
 
   glGenBuffers(1, &vertex_buffer_object);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glGenVertexArrays(1, &vertex_array_object);
-  glBindVertexArray(vertex_array_object);
+  glGenBuffers(1, &element_buffer_object);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, element_buffer_object);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
+
+  /* glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); does not fill the triangles */
 
   while (!glfwWindowShouldClose(window)) {
     // input
@@ -101,9 +115,7 @@ int main() {
     // rendering commands
     glClearColor(.2f, .3f, .3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(shader_program);
-    glBindVertexArray(vertex_array_object);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
 
     // check and call events and swap the buffers
     glfwSwapBuffers(window);
