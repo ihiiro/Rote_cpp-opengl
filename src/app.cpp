@@ -78,27 +78,38 @@ int main() {
   glDeleteShader(fragment_shader);
   glUseProgram(shader_program);
 
-  float vertices[] = {
-    -1.0f, -.5f, .0f,
-    -.1f, -.5f, .0f,
-    -.55f, .5f, .0f,
-
-    1.0f, -.5f, .0f,
-    .1f, -.5f, .0f,
-    .55f, .5f, .0f,
+  float vertices[][9] = {
+    {
+      -1.0f, -.5f, .0f,
+      -.1f, -.5f, .0f,
+      -.55f, .5f, .0f,
+    },
+    {
+      1.0f, -.5f, .0f,
+      .1f, -.5f, .0f,
+      .55f, .5f, .0f,
+    },
   };
-  unsigned int vertex_buffer_object;
-  unsigned int vertex_array_object;
+  unsigned int vertex_buffer_object0;
+  unsigned int vertex_buffer_object1;
+  unsigned int vertex_array_object0;
+  unsigned int vertex_array_object1;
 
-  glGenVertexArrays(1, &vertex_array_object);
-  glBindVertexArray(vertex_array_object);
+  glGenVertexArrays(1, &vertex_array_object0);
+  glBindVertexArray(vertex_array_object0);
 
-  glGenBuffers(1, &vertex_buffer_object);
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+  glGenVertexArrays(1, &vertex_array_object1);
+  glBindVertexArray(vertex_array_object1);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-  glEnableVertexAttribArray(0);
+  glGenBuffers(1, &vertex_buffer_object0);
+  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object0);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]), vertices[0], GL_STATIC_DRAW);
+
+  glGenBuffers(1, &vertex_buffer_object1);
+  glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object1);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[1]), vertices[1], GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   /* glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); does not fill the triangles */
 
@@ -106,10 +117,22 @@ int main() {
     // input
     process_input(window);
 
-    // rendering commands
+    // clearing
     glClearColor(.2f, .3f, .3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    // rendering
+    glBindVertexArray(vertex_array_object0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object0);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    glBindVertexArray(vertex_array_object1);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object1);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
     // check and call events and swap the buffers
     glfwSwapBuffers(window);
