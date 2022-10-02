@@ -148,12 +148,10 @@ int main() {
     // rendering
     glUseProgram(shader_program);
     glBindVertexArray(vertex_array_objects[0]);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_objects[0]);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     glUseProgram(shader_program_yellow);
     glBindVertexArray(vertex_array_objects[1]);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_objects[1]);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 
     // check and call events and swap the buffers
