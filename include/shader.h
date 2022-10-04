@@ -11,9 +11,8 @@
 class Shader {
 private:
   const short INFO_LOG_SIZE = 512;
-public:
   unsigned int ID;
-
+public:
   Shader(const char* vertex_path, const char* fragment_path);
 
   void use();
@@ -21,6 +20,7 @@ public:
   void set_bool(const std::string &name, bool value) const;
   void set_int(const std::string &name, int value) const;
   void set_float(const std::string &name, float value) const;
+  void set_float_sin(const std::string name, float rgba[]) const;
 };
 
 Shader::Shader(const char* vertex_path, const char* fragment_path) {
@@ -103,6 +103,10 @@ void Shader::set_int(const std::string &name, int value) const {
 
 void Shader::set_float(const std::string &name, float value) const {
   glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+}
+
+void Shader::set_float_sin(const std::string name, float rgba[]) const {
+  glUniform4f(glGetUniformLocation(ID, name.c_str()), rgba[0], rgba[1], rgba[2], rgba[3]);
 }
 
 #endif

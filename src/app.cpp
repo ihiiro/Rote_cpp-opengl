@@ -2,11 +2,11 @@
 #include <cmath>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "shader.h"
+#include <shader.h>
 
 const struct {
-  short x = 800;
-  short y = 600;
+  short x {800};
+  short y {600};
 } SIZE;
 
 // function prototypes
@@ -37,11 +37,11 @@ int main() {
   Shader shader_green("/home/hiro/rote/cpp-opengl/project/src/shader.vs", "/home/hiro/rote/cpp-opengl/project/src/shader_green.fs");
 
   // show maximum number of vertex attributes supported
-  int nr_attributes;
+  int nr_attributes ;
   glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nr_attributes);
   std::cout << "Maximum nr of vertex attributes supported: " << nr_attributes << std::endl;
 
-  float vertices[][18] = {
+  float vertices[][18] {
     {
       1.0f, -.5f, .0f,  1.0f, .0f, .0f,
       .1f, -.5f, .0f,   .0f, 1.0f, .0f,
@@ -93,8 +93,8 @@ int main() {
     shader_green.use();
     float time_value = glfwGetTime();
     float green_value = (sin(time_value) / 2.0f) + .5f;
-    int vertex_color_location = glGetUniformLocation(shader_green.ID, "color_from_opengl_code");
-    glUniform4f(vertex_color_location, .0f, green_value, .0f, 1.0f);
+    float rgba_value[] {.0f, green_value, .0f, 1.0f};
+    shader_green.set_float_sin("color_from_opengl_code", rgba_value);
 
     glBindVertexArray(vertex_array_objects[1]);
     glDrawArrays(GL_TRIANGLES, 0, 3);
