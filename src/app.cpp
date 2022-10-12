@@ -43,10 +43,10 @@ int main() {
 
   float vertices[] {
     // positions      // colors         // texture coords
-    .5f, .5f, .0f,    1.0f, .0f, .0f,   1.0f, 1.0f,
-    .5f, -.5f, .0f,   .0f, 1.0f, .0f,   1.0f, .0f,
+    .5f, .5f, .0f,    1.0f, .0f, .0f,   2.0f, 2.0f,
+    .5f, -.5f, .0f,   .0f, 1.0f, .0f,   2.0f, .0f,
     -.5f, -.5f, .0f,  .0f, .0f, 1.0f,   .0f, .0f,
-    -.5f, .5f, .0f,   1.0f, 1.0f, .0f,  .0f, 1.0f,
+    -.5f, .5f, .0f,   1.0f, 1.0f, .0f,  .0f, 2.0f,
   };
 
   unsigned int indices[] {
@@ -83,8 +83,8 @@ int main() {
   glGenTextures(1, &awesomeface);
 
   glBindTexture(GL_TEXTURE_2D, container);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
@@ -107,7 +107,7 @@ int main() {
 
   // awesomeface
   glBindTexture(GL_TEXTURE_2D, awesomeface);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // GL_REPEAT is the default behaviour for textures
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
