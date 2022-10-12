@@ -9,5 +9,5 @@ uniform sampler2D awesomeface;
 
 void main() {
   // mix two textures
-  frag_color = mix(texture(container, tex_coord), texture(awesomeface, tex_coord), .2f);
+  frag_color = mix(texture(container, tex_coord), texture(awesomeface, vec2(-tex_coord.x, tex_coord.y)), .2f);
 }
